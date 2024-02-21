@@ -1,4 +1,4 @@
-import { Text, View } from "react-native"
+import { Pressable, PressableProps, Text, View } from "react-native"
 
 import { styles } from "./styles"
 import { currencyFormat } from "@/utils/currencyFormat"
@@ -9,13 +9,13 @@ type TransactionProps = {
   value: number
 }
 
-type Props = {
+type Props = PressableProps & {
   transaction: TransactionProps
 }
 
-export function Transaction({ transaction }: Props) {
+export function Transaction({ transaction, ...rest }: Props) {
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} {...rest}>
       <View>
         <Text style={styles.title}>{transaction.title}</Text>
         <Text style={styles.date}>{transaction.date}</Text>
@@ -24,6 +24,6 @@ export function Transaction({ transaction }: Props) {
       <Text style={[styles.value, styles.up]}>
         {currencyFormat(transaction.value)}
       </Text>
-    </View>
+    </Pressable>
   )
 }
