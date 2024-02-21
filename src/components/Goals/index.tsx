@@ -6,7 +6,20 @@ import { styles } from "./styles"
 
 import { Goal } from "@/components/Goal"
 
-export function Goals() {
+export type GoalsProps = {
+  id: string
+  name: string
+  current: number
+  total: number
+}[]
+
+type Props = {
+  goals: GoalsProps
+  onPress: (id: string) => void
+  onAdd: () => void
+}
+
+export function Goals({ goals, onAdd, onPress }: Props) {
   return (
     <ScrollView
       horizontal
@@ -14,13 +27,17 @@ export function Goals() {
       showsHorizontalScrollIndicator={false}
       style={styles.list}
     >
-      <TouchableOpacity activeOpacity={0.7} style={styles.add}>
+      <TouchableOpacity activeOpacity={0.7} style={styles.add} onPress={onAdd}>
         <MaterialIcons name="add" size={36} color={theme.colors.black} />
       </TouchableOpacity>
 
-      <Goal goal={{ name: "Notebook", current: 70, total: 100 }} />
-      <Goal goal={{ name: "Notebook", current: 70, total: 100 }} />
-      <Goal goal={{ name: "Notebook", current: 70, total: 100 }} />
+      {goals.map(({ id, name, current, total }) => (
+        <Goal
+          key={id}
+          goal={{ name, current, total }}
+          onPress={() => onPress(id)}
+        />
+      ))}
     </ScrollView>
   )
 }

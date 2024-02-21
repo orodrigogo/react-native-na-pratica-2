@@ -1,6 +1,9 @@
-import { useRef, useState } from "react"
-import { View } from "react-native"
-import BottomS from "@gorhom/bottom-sheet"
+import { useEffect, useRef, useState } from "react"
+import { useLocalSearchParams } from "expo-router"
+import Bottom from "@gorhom/bottom-sheet"
+import { Alert, Keyboard, View } from "react-native"
+
+import { useGoalRepository } from "@/database/repositories/useGoalRepository"
 
 import { Input } from "@/components/Input"
 import { Button } from "@/components/Button"
@@ -13,20 +16,69 @@ import { TransactionTypeSelect } from "@/components/TransactionTypeSelect"
 
 export default function Details() {
   const [type, setType] = useState<"up" | "down">("up")
-  const bottomSheetRef = useRef<BottomS>(null)
+  const [transactions, setTransactions] = useState([])
+  const [value, setValue] = useState("")
+  const [data, setData] = useState({})
+
+  const bottomSheetRef = useRef<Bottom>(null)
+
+  const routeParams = useLocalSearchParams()
 
   const handleBottomSheetOpen = () => bottomSheetRef.current?.expand()
   const handleBottomSheetClose = () => bottomSheetRef.current?.snapToIndex(0)
+
+  async function fetchGoal() {
+    const useGoal = useGoalRepository()
+
+    if (routeParams.id) {
+      const data = useGoal.show(Number(routeParams.id))
+      console.log("teste =>", data)
+      setData(data ?? [])
+    }
+  }
+
+  async function fetchTransactions() {}
+
+  async function handleNewTransaction() {
+    try {
+      if (isNaN(Number(value))) {
+        return Alert.alert("Erro", "Valor inválido.")
+      }
+
+      //await goalsStorage.create({ name, total: totalAsNumber })
+      /*
+      await database.execAsync(
+        `INSERT INTO transactions (goal_id, amount) VALUES (${routeParams.id}, ${value})`
+      )
+
+      await fetchTransactions()
+
+      Alert.alert("Sucesso", "Transação registrada!")
+
+      handleBottomSheetClose()
+      Keyboard.dismiss()
+
+      setValue("")
+       */
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchGoal()
+    fetchTransactions()
+  }, [])
 
   return (
     <View style={{ flex: 1, padding: 32 }}>
       <BackButton />
 
-      <Header title="Notebook" subtitle="R$ 1.342,57 de R$ 5.000,00" />
+      <Header title={data.name} subtitle={`R$ 1.342,57 de R$ ${data.total}`} />
 
       <Progress percentage={30} />
 
-      <Transactions />
+      <Transactions transactions={transactions} />
 
       <Button title="Nova transação" onPress={handleBottomSheetOpen} />
 
@@ -38,9 +90,14 @@ export default function Details() {
       >
         <TransactionTypeSelect onChange={setType} selected={type} />
 
-        <Input placeholder="Valor" keyboardType="numeric" />
+        <Input
+          placeholder="Valor"
+          keyboardType="numeric"
+          onChangeText={setValue}
+          value={value}
+        />
 
-        <Button title="Criar" onPress={() => {}} />
+        <Button title="Confirmar" onPress={handleNewTransaction} />
       </BottomSheet>
     </View>
   )

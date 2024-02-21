@@ -16,8 +16,10 @@
     "@expo-google-fonts/open-sans": "^0.2.3",
     "@expo/vector-icons": "^14.0.0",
     "@gorhom/bottom-sheet": "^4.6.1",
+    "@react-native-async-storage/async-storage": "1.21.0",
     "@react-navigation/native": "^6.0.2",
     "expo": "~50.0.7",
+    "expo-crypto": "~12.8.1",
     "expo-font": "~11.10.3",
     "expo-linking": "~6.2.2",
     "expo-router": "~3.4.7",
@@ -32,7 +34,8 @@
     "react-native-reanimated": "~3.6.2",
     "react-native-safe-area-context": "4.8.2",
     "react-native-screens": "~3.29.0",
-    "react-native-web": "~0.19.6"
+    "react-native-web": "~0.19.6",
+    "expo-sqlite": "~13.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -1,7 +1,7 @@
 import React, { ReactNode, forwardRef } from "react"
 import { Text, View } from "react-native"
 import MaterialIcons from "@expo/vector-icons/MaterialIcons"
-import BottomS from "@gorhom/bottom-sheet"
+import Bottom from "@gorhom/bottom-sheet"
 
 import { theme } from "@/theme"
 import { styles } from "./styles"
@@ -13,10 +13,10 @@ export type Props = {
   snapPoints: number[]
 }
 
-export const BottomSheet = forwardRef<BottomS, Props>(
+export const BottomSheet = forwardRef<Bottom, Props>(
   ({ onClose, children, snapPoints, title }, ref) => {
     return (
-      <BottomS
+      <Bottom
         ref={ref}
         index={0}
         snapPoints={snapPoints}
@@ -37,7 +37,7 @@ export const BottomSheet = forwardRef<BottomS, Props>(
 
           {children}
         </View>
-      </BottomS>
+      </Bottom>
     )
   }
 )

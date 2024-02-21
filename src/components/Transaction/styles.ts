@@ -14,11 +14,6 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  name: {
-    color: theme.colors.white,
-    fontFamily: theme.fonts.family.bold,
-    fontSize: theme.fonts.size.body.md,
-  },
   date: {
     color: theme.colors.gray_300,
     fontFamily: theme.fonts.family.regular,
