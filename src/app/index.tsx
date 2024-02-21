@@ -8,6 +8,7 @@ import { Header } from "@/components/Header"
 import { Button } from "@/components/Button"
 import { BottomSheet } from "@/components/BottomSheet"
 import { Transactions } from "@/components/Transactions"
+import { Input } from "@/components/Input"
 
 export default function Home() {
   const bottomSheetRef = useRef<BottomS>(null)
@@ -32,10 +33,13 @@ export default function Home() {
 
       <BottomSheet
         ref={bottomSheetRef}
-        snapPoints={[0.01, 298]}
+        title="Nova meta"
+        snapPoints={[0.01, 284]}
         onClose={handleBottomSheetClose}
       >
-        <Text>Teste</Text>
+        <Input placeholder="Nome da meta" />
+        <Input placeholder="Valor" keyboardType="numeric" />
+        <Button title="Criar" onPress={() => {}} />
       </BottomSheet>
     </View>
   )

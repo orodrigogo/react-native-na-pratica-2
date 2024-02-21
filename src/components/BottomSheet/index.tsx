@@ -8,31 +8,35 @@ import { theme } from "@/theme"
 
 export type Props = {
   onClose: () => void
+  title: string
   children: ReactNode
   snapPoints: number[]
 }
 
 export const BottomSheet = forwardRef<BottomS, Props>(
-  ({ onClose, children, snapPoints }, ref) => {
+  ({ onClose, children, snapPoints, title }, ref) => {
     return (
       <BottomS
         ref={ref}
         index={0}
         snapPoints={snapPoints}
-        backgroundStyle={styles.container}
+        backgroundStyle={styles.background}
         handleComponent={() => null}
       >
-        <View style={styles.header}>
-          <MaterialIcons
-            name="close"
-            size={24}
-            color={theme.colors.gray_300}
-            onPress={onClose}
-          />
-          <Text style={styles.title}>Comece a criar agora</Text>
-        </View>
+        <View style={styles.content}>
+          <View style={styles.header}>
+            <Text style={styles.title}>{title}</Text>
 
-        <View style={styles.content}>{children}</View>
+            <MaterialIcons
+              name="close"
+              size={24}
+              color={theme.colors.gray_300}
+              onPress={onClose}
+            />
+          </View>
+
+          {children}
+        </View>
       </BottomS>
     )
   }

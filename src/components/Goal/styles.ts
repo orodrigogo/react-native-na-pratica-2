@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     borderRadius: theme.borderRadius.md,
     padding: 16,
   },
-  title: {
+  name: {
     color: theme.colors.white,
     fontFamily: theme.fonts.family.bold,
     fontSize: theme.fonts.size.body.md,

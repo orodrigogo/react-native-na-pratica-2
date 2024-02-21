@@ -4,7 +4,7 @@ import { styles } from "./styles"
 import { currencyFormat } from "@/utils/currencyFormat"
 
 type TransactionProps = {
-  title: string
+  name: string
   date: string
   value: number
 }
@@ -17,7 +17,7 @@ export function Transaction({ transaction, ...rest }: Props) {
   return (
     <Pressable style={styles.container} {...rest}>
       <View>
-        <Text style={styles.title}>{transaction.title}</Text>
+        <Text style={styles.name}>{transaction.name}</Text>
         <Text style={styles.date}>{transaction.date}</Text>
       </View>
 

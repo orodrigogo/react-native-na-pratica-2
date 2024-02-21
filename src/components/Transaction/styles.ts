@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  title: {
+  name: {
     color: theme.colors.white,
     fontFamily: theme.fonts.family.bold,
     fontSize: theme.fonts.size.body.md,

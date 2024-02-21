@@ -17,7 +17,7 @@ export function Transactions({ onPress = () => {} }: Props) {
         data={[
           {
             id: "1",
-            title: "Notebook",
+            name: "Notebook",
             date: "16/03/2024",
             value: 334.3,
           },

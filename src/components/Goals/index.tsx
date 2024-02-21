@@ -18,9 +18,9 @@ export function Goals() {
         <MaterialIcons name="add" size={36} color={theme.colors.black} />
       </TouchableOpacity>
 
-      <Goal goal={{ title: "Notebook", current: 70, total: 100 }} />
-      <Goal goal={{ title: "Notebook", current: 70, total: 100 }} />
-      <Goal goal={{ title: "Notebook", current: 70, total: 100 }} />
+      <Goal goal={{ name: "Notebook", current: 70, total: 100 }} />
+      <Goal goal={{ name: "Notebook", current: 70, total: 100 }} />
+      <Goal goal={{ name: "Notebook", current: 70, total: 100 }} />
     </ScrollView>
   )
 }

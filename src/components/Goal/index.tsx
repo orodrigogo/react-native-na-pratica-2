@@ -5,7 +5,7 @@ import { Progress } from "@/components/Progress"
 import { currencyFormat } from "@/utils/currencyFormat"
 
 type GoalProps = {
-  title: string
+  name: string
   current: number
   total: number
 }
@@ -19,7 +19,7 @@ export function Goal({ goal }: Props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{goal.title}</Text>
+      <Text style={styles.name}>{goal.name}</Text>
       <Text style={styles.current}>{currencyFormat(goal.current)}</Text>
       <Text style={styles.goal}>{currencyFormat(goal.total)}</Text>
 
