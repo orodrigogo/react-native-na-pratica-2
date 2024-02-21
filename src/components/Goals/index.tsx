@@ -1,10 +1,10 @@
 import { ScrollView, TouchableOpacity } from "react-native"
+import MaterialIcons from "@expo/vector-icons/MaterialIcons"
 
 import { theme } from "@/theme"
 import { styles } from "./styles"
 
 import { Goal } from "@/components/Goal"
-import { MaterialIcons } from "@expo/vector-icons"
 
 export function Goals() {
   return (

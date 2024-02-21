@@ -1,14 +1,14 @@
 import { useRef } from "react"
+import { View } from "react-native"
 import { router } from "expo-router"
-import { Text, View } from "react-native"
 import BottomS from "@gorhom/bottom-sheet"
 
+import { Input } from "@/components/Input"
 import { Goals } from "@/components/Goals"
 import { Header } from "@/components/Header"
 import { Button } from "@/components/Button"
 import { BottomSheet } from "@/components/BottomSheet"
 import { Transactions } from "@/components/Transactions"
-import { Input } from "@/components/Input"
 
 export default function Home() {
   const bottomSheetRef = useRef<BottomS>(null)
@@ -28,7 +28,9 @@ export default function Home() {
       />
 
       <Goals />
+
       <Transactions onPress={(id) => handleOpenDetails(id)} />
+
       <Button title="Criar meta" onPress={handleBottomSheetOpen} />
 
       <BottomSheet

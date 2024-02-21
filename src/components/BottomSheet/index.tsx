@@ -1,10 +1,10 @@
 import React, { ReactNode, forwardRef } from "react"
 import { Text, View } from "react-native"
+import MaterialIcons from "@expo/vector-icons/MaterialIcons"
 import BottomS from "@gorhom/bottom-sheet"
 
-import { styles } from "./styles"
-import { MaterialIcons } from "@expo/vector-icons"
 import { theme } from "@/theme"
+import { styles } from "./styles"
 
 export type Props = {
   onClose: () => void

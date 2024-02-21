@@ -1,5 +1,5 @@
-import { View, Text, ColorValue, Pressable, PressableProps } from "react-native"
-import { MaterialIcons } from "@expo/vector-icons"
+import { Text, ColorValue, Pressable, PressableProps } from "react-native"
+import MaterialIcons from "@expo/vector-icons/MaterialIcons"
 
 import { styles } from "./styles"
 
