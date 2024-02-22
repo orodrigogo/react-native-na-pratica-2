@@ -3,7 +3,7 @@ import { Pressable, PressableProps, Text } from "react-native"
 import { styles } from "./styles"
 import { currencyFormat } from "@/utils/currencyFormat"
 
-type TransactionProps = {
+export type TransactionProps = {
   created_at: string
   amount: number
 }

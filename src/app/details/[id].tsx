@@ -3,7 +3,8 @@ import { useLocalSearchParams } from "expo-router"
 import Bottom from "@gorhom/bottom-sheet"
 import { Alert, Keyboard, View } from "react-native"
 
-import { useGoalRepository } from "@/database/repositories/useGoalRepository"
+import { useGoalRepository } from "@/database/useGoalRepository"
+import { useTransactionRepository } from "@/database/useTransactionRepository"
 
 import { Input } from "@/components/Input"
 import { Button } from "@/components/Button"
@@ -12,32 +13,57 @@ import { Progress } from "@/components/Progress"
 import { BackButton } from "@/components/BackButton"
 import { BottomSheet } from "@/components/BottomSheet"
 import { Transactions } from "@/components/Transactions"
+import { TransactionProps } from "@/components/Transaction"
 import { TransactionTypeSelect } from "@/components/TransactionTypeSelect"
+import { currencyFormat } from "@/utils/currencyFormat"
+
+type Status = {
+  name: string
+  total: string
+  current: string
+  percentage: number
+}
 
 export default function Details() {
-  const [type, setType] = useState<"up" | "down">("up")
-  const [transactions, setTransactions] = useState([])
   const [value, setValue] = useState("")
-  const [data, setData] = useState({})
+  const [type, setType] = useState<"up" | "down">("up")
+  const [transactions, setTransactions] = useState<TransactionProps[]>([])
+  const [status, setStatus] = useState<Status>({} as Status)
+  const [isLoading, setIsLoading] = useState(true)
 
   const bottomSheetRef = useRef<Bottom>(null)
 
   const routeParams = useLocalSearchParams()
+  const goalId = Number(routeParams.id)
+
+  const useGoal = useGoalRepository()
+  const useTransactions = useTransactionRepository()
 
   const handleBottomSheetOpen = () => bottomSheetRef.current?.expand()
   const handleBottomSheetClose = () => bottomSheetRef.current?.snapToIndex(0)
 
-  async function fetchGoal() {
-    const useGoal = useGoalRepository()
+  async function fetchStatus() {
+    const goalsDb = useGoal.show(goalId)
 
-    if (routeParams.id) {
-      const data = useGoal.show(Number(routeParams.id))
-      console.log("teste =>", data)
-      setData(data ?? [])
+    if (goalsDb) {
+      const current = useTransactions.totalByGoalId(goalId)
+      const percentage = (current / goalsDb.total) * 100
+
+      setStatus({
+        name: goalsDb.name,
+        current: currencyFormat(current),
+        total: currencyFormat(goalsDb.total),
+        percentage,
+      })
+
+      setIsLoading(false)
     }
   }
 
-  async function fetchTransactions() {}
+  async function fetchTransactions() {
+    const response = useTransactions.findByGoalId(goalId)
+    setTransactions(response)
+  }
 
   async function handleNewTransaction() {
     try {
@@ -45,11 +71,10 @@ export default function Details() {
         return Alert.alert("Erro", "Valor inválido.")
       }
 
-      //await goalsStorage.create({ name, total: totalAsNumber })
-      /*
-      await database.execAsync(
-        `INSERT INTO transactions (goal_id, amount) VALUES (${routeParams.id}, ${value})`
-      )
+      useTransactions.create({
+        goal_id: goalId,
+        amount: Number(value),
+      })
 
       await fetchTransactions()
 
@@ -57,26 +82,31 @@ export default function Details() {
 
       handleBottomSheetClose()
       Keyboard.dismiss()
-
       setValue("")
-       */
     } catch (error) {
       console.log(error)
     }
   }
 
   useEffect(() => {
-    fetchGoal()
+    fetchStatus()
     fetchTransactions()
   }, [])
+
+  if (isLoading) {
+    return
+  }
 
   return (
     <View style={{ flex: 1, padding: 32 }}>
       <BackButton />
 
-      <Header title={data.name} subtitle={`R$ 1.342,57 de R$ ${data.total}`} />
+      <Header
+        title={status.name}
+        subtitle={`${status.current} de ${status.total}`}
+      />
 
-      <Progress percentage={30} />
+      <Progress percentage={status.percentage} />
 
       <Transactions transactions={transactions} />
 

@@ -1,12 +1,8 @@
 import { Slot } from "expo-router"
 import { StatusBar } from "expo-status-bar"
+import { SQLiteProvider } from "expo-sqlite/next"
 import * as SplashScreen from "expo-splash-screen"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
-import {
-  SQLiteProvider,
-  useSQLiteContext,
-  type SQLiteDatabase,
-} from "expo-sqlite/next"
 
 import {
   useFonts,
@@ -15,7 +11,7 @@ import {
   OpenSans_600SemiBold,
 } from "@expo-google-fonts/open-sans"
 
-import { goalsMigrate } from "@/database/migrates"
+import { databaseInit } from "@/database/databaseInit"
 
 import { theme } from "@/theme"
 
@@ -39,7 +35,7 @@ export default function Layout() {
       style={{ flex: 1, backgroundColor: theme.colors.gray_600 }}
     >
       <StatusBar style="light" />
-      <SQLiteProvider databaseName="test.db" onInit={goalsMigrate}>
+      <SQLiteProvider databaseName="test.db" onInit={databaseInit}>
         <Slot />
       </SQLiteProvider>
     </GestureHandlerRootView>

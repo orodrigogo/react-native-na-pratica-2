@@ -2,10 +2,10 @@ import { FlatList, Text, View } from "react-native"
 
 import { styles } from "./styles"
 
-import { Transaction } from "@/components/Transaction"
+import { Transaction, TransactionProps } from "@/components/Transaction"
 
 type Props = {
-  transactions: any
+  transactions: TransactionProps[]
 }
 
 export function Transactions({ transactions }: Props) {

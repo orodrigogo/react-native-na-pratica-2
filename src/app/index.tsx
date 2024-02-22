@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react"
 import { Alert, View, Keyboard } from "react-native"
-import { router } from "expo-router"
 import Bottom from "@gorhom/bottom-sheet"
+import { router } from "expo-router"
 
 import { useSQLiteContext } from "expo-sqlite/next"
-import { useGoalRepository } from "@/database/repositories/useGoalRepository"
-import { useTransactionRepository } from "@/database/repositories/useTransactionRepository"
+import { useGoalRepository } from "@/database/useGoalRepository"
+import { useTransactionRepository } from "@/database/useTransactionRepository"
 
 import { Input } from "@/components/Input"
 import { Header } from "@/components/Header"
@@ -68,7 +68,6 @@ export default function Home() {
       })
 
       setGoals(response)
-      console.log(response)
     } catch (error) {
       Alert.alert("Erro", "Não foi possível listar.")
       console.log(error)

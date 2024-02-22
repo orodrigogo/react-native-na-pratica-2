@@ -1,10 +1,6 @@
 import { SQLiteDatabase } from "expo-sqlite/next"
 
-export async function goalsMigrate(database: SQLiteDatabase) {
-  /*await database.execAsync(`
-    DROP TABLE IF EXISTS transactions;
-  `)*/
-
+export async function databaseInit(database: SQLiteDatabase) {
   await database.execAsync(`
       PRAGMA journal_mode = 'wal';
       
@@ -21,6 +17,4 @@ export async function goalsMigrate(database: SQLiteDatabase) {
         created_at DEFAULT CURRENT_TIMESTAMP
       );
     `)
-
-  console.log("Data table created!")
 }
