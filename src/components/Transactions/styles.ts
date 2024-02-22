@@ -18,4 +18,9 @@ export const styles = StyleSheet.create({
     paddingVertical: 24,
     gap: 16,
   },
+  emptyList: {
+    color: theme.colors.gray_300,
+    fontFamily: theme.fonts.family.regular,
+    fontSize: theme.fonts.size.body.sm,
+  },
 })

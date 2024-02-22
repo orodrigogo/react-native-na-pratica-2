@@ -1,3 +1,5 @@
+import "@/libs/dayjs"
+
 import { Slot } from "expo-router"
 import { StatusBar } from "expo-status-bar"
 import { SQLiteProvider } from "expo-sqlite/next"
@@ -35,7 +37,7 @@ export default function Layout() {
       style={{ flex: 1, backgroundColor: theme.colors.gray_600 }}
     >
       <StatusBar style="light" />
-      <SQLiteProvider databaseName="test.db" onInit={databaseInit}>
+      <SQLiteProvider databaseName="mygoals.db" onInit={databaseInit}>
         <Slot />
       </SQLiteProvider>
     </GestureHandlerRootView>

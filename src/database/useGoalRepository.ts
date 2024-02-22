@@ -1,11 +1,10 @@
 import { useSQLiteContext } from "expo-sqlite/next"
 
 export type GoalResponseDatabase = {
-  id: number
+  id: string
   name: string
   total: number
-  goal_id: number
-  created_at: number
+  current: number
 }
 
 export type GoalCreateDatabase = {
@@ -17,7 +16,18 @@ export function useGoalRepository() {
   const database = useSQLiteContext()
 
   function all() {
-    return database.getAllSync<GoalResponseDatabase>("SELECT * FROM goals")
+    try {
+      return database.getAllSync<GoalResponseDatabase>(
+        `
+          SELECT g.id, g.name, g.total, COALESCE(SUM(t.amount), 0) AS current
+          FROM goals AS g
+          LEFT JOIN transactions t ON t.goal_id = g.id
+          GROUP BY g.id, g.name, g.total;
+        `
+      )
+    } catch (error) {
+      throw error
+    }
   }
 
   function create(goal: GoalCreateDatabase) {
@@ -32,7 +42,15 @@ export function useGoalRepository() {
   }
 
   function show(id: number) {
-    const statement = database.prepareSync("SELECT * FROM goals WHERE id = $id")
+    const statement = database.prepareSync(
+      `
+          SELECT g.id, g.name, g.total, COALESCE(SUM(t.amount), 0) AS current
+          FROM goals AS g
+          LEFT JOIN transactions t ON t.goal_id = g.id
+          WHERE g.id = $id
+          GROUP BY g.id, g.name, g.total;
+        `
+    )
 
     const result = statement.executeSync<GoalResponseDatabase>({ $id: id })
 

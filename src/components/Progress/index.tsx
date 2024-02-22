@@ -8,19 +8,20 @@ type Props = {
 }
 
 export function Progress({ percentage }: Props) {
+  const width = percentage > 100 ? 100 : percentage
   const value = percentage.toFixed(0) + "%"
 
   return (
     <View style={styles.container}>
-      <View style={[styles.bar, { width: `${percentage}%` }]}>
-        {percentage > 30 && (
+      <View style={[styles.bar, { width: `${width}%` }]}>
+        {percentage >= 30 && (
           <Text style={[styles.percentage, { color: theme.colors.black }]}>
             {value}
           </Text>
         )}
       </View>
 
-      {percentage <= 30 && (
+      {percentage < 30 && (
         <Text style={[styles.percentage, { color: theme.colors.white }]}>
           {value}
         </Text>

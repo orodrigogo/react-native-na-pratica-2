@@ -4,8 +4,10 @@ import { styles } from "./styles"
 
 import { Transaction, TransactionProps } from "@/components/Transaction"
 
+export type TransactionsProps = TransactionProps[]
+
 type Props = {
-  transactions: TransactionProps[]
+  transactions: TransactionsProps
 }
 
 export function Transactions({ transactions }: Props) {
@@ -18,6 +20,11 @@ export function Transactions({ transactions }: Props) {
         renderItem={({ item }) => <Transaction transaction={item} />}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={() => (
+          <Text style={styles.emptyList}>
+            Nenhuma transação registrada ainda.
+          </Text>
+        )}
       />
     </View>
   )

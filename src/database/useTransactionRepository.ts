@@ -2,11 +2,11 @@ import { useSQLiteContext } from "expo-sqlite/next"
 
 type TransactionCreateDatabase = {
   amount: number
-  goal_id: number
+  goalId: number
 }
 
 type TransactionResponseDatabase = {
-  id: number
+  id: string
   amount: number
   goal_id: number
   created_at: number
@@ -15,43 +15,50 @@ type TransactionResponseDatabase = {
 export function useTransactionRepository() {
   const database = useSQLiteContext()
 
-  function findByGoalId(id: number) {
-    const statement = database.prepareSync(
-      "SELECT * FROM transactions WHERE goal_id = $id"
-    )
-
-    const result = statement.executeSync<TransactionResponseDatabase>({
-      $id: id,
-    })
-
-    return result.getAllSync()
+  function findLatest() {
+    try {
+      return database.getAllSync<TransactionResponseDatabase>(
+        "SELECT* FROM transactions ORDER BY created_at DESC LIMIT 10"
+      )
+    } catch (error) {
+      throw error
+    }
   }
 
-  function totalByGoalId(id: number) {
-    const statement = database.prepareSync(
-      "SELECT SUM(amount) as total FROM transactions WHERE goal_id = $id"
-    )
+  function findByGoal(goalId: number) {
+    try {
+      const statement = database.prepareSync(
+        "SELECT * FROM transactions WHERE goal_id = $goal_id"
+      )
 
-    const result = statement.executeSync<{ total: number }>({ $id: id })
-    const response = result.getFirstSync()
+      const result = statement.executeSync<TransactionResponseDatabase>({
+        $goal_id: goalId,
+      })
 
-    return response?.total ?? 0
+      return result.getAllSync()
+    } catch (error) {
+      throw error
+    }
   }
 
   function create(transaction: TransactionCreateDatabase) {
-    const statement = database.prepareSync(
-      "INSERT INTO transactions (amount, goal_id) VALUES ($amount, $goal_id)"
-    )
+    try {
+      const statement = database.prepareSync(
+        "INSERT INTO transactions (amount, goal_id) VALUES ($amount, $goal_id)"
+      )
 
-    statement.executeSync({
-      $amount: transaction.amount,
-      $goal_id: transaction.goal_id,
-    })
+      statement.executeSync({
+        $amount: transaction.amount,
+        $goal_id: transaction.goalId,
+      })
+    } catch (error) {
+      throw error
+    }
   }
 
   return {
     create,
-    totalByGoalId,
-    findByGoalId,
+    findByGoal,
+    findLatest,
   }
 }
