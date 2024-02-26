@@ -1,10 +1,9 @@
 import React, { ReactNode, forwardRef } from "react"
 import { Text, View } from "react-native"
-import MaterialIcons from "@expo/vector-icons/MaterialIcons"
 import Bottom from "@gorhom/bottom-sheet"
+import MaterialIcons from "@expo/vector-icons/MaterialIcons"
 
-import { theme } from "@/theme"
-import { styles } from "./styles"
+import { colors } from "@/styles/colors"
 
 export type Props = {
   onClose: () => void
@@ -20,17 +19,23 @@ export const BottomSheet = forwardRef<Bottom, Props>(
         ref={ref}
         index={0}
         snapPoints={snapPoints}
-        backgroundStyle={styles.background}
+        backgroundStyle={{
+          borderWidth: 1,
+          borderColor: colors.gray[400],
+          backgroundColor: colors.gray[700],
+        }}
         handleComponent={() => null}
       >
-        <View style={styles.content}>
-          <View style={styles.header}>
-            <Text style={styles.title}>{title}</Text>
+        <View className="p-8 gap-4">
+          <View className="flex-row">
+            <Text className="flex-1 text-white font-semiBold text-base">
+              {title}
+            </Text>
 
             <MaterialIcons
               name="close"
               size={24}
-              color={theme.colors.gray_300}
+              color={colors.gray[300]}
               onPress={onClose}
             />
           </View>

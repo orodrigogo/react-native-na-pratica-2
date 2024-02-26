@@ -112,7 +112,7 @@ export default function Details() {
   }
 
   return (
-    <View style={{ flex: 1, padding: 32 }}>
+    <View className="flex-1 p-8">
       <BackButton />
 
       <Header title={goal.name} subtitle={`${goal.current} de ${goal.total}`} />

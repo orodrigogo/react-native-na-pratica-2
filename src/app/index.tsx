@@ -91,7 +91,7 @@ export default function Home() {
   }, [])
 
   return (
-    <View style={{ flex: 1, padding: 32 }}>
+    <View className="flex-1 p-8">
       <Header
         title="Suas metas"
         subtitle="Poupe hoje para colher os frutos amanhã."

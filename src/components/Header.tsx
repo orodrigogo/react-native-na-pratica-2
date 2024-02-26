@@ -1,7 +1,5 @@
 import { View, Text } from "react-native"
 
-import { styles } from "./styles"
-
 type Props = {
   title: string
   subtitle: string
@@ -9,9 +7,9 @@ type Props = {
 
 export function Header({ title, subtitle }: Props) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.subtitle}>{subtitle}</Text>
+    <View className="mt-14 mb-12">
+      <Text className="text-white font-bold text-4xl">{title}</Text>
+      <Text className="text-white font-regular text-lg">{subtitle}</Text>
     </View>
   )
 }

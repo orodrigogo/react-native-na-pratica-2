@@ -1,8 +1,6 @@
 import { Text, ColorValue, Pressable, PressableProps } from "react-native"
 import MaterialIcons from "@expo/vector-icons/MaterialIcons"
 
-import { styles } from "./styles"
-
 type TransactionTypeProps = {
   title: string
   icon: keyof typeof MaterialIcons.glyphMap
@@ -17,11 +15,12 @@ type Props = PressableProps & {
 export function TransactionType({ type, ...rest }: Props) {
   return (
     <Pressable
-      style={[styles.container, type.selected && styles.selected]}
+      className="px-4 py-2 bg-gray-400 rounded-sm flex-row items-center gap-2"
+      style={{ opacity: type.selected ? 1 : 0.5 }}
       {...rest}
     >
       <MaterialIcons name={type.icon} color={type.color} size={16} />
-      <Text style={styles.title}>{type.title}</Text>
+      <Text className="text-white font-semiBold text-sm">{type.title}</Text>
     </Pressable>
   )
 }

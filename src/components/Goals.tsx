@@ -1,10 +1,8 @@
 import { ScrollView, TouchableOpacity } from "react-native"
 import MaterialIcons from "@expo/vector-icons/MaterialIcons"
 
-import { theme } from "@/theme"
-import { styles } from "./styles"
-
 import { Goal } from "@/components/Goal"
+import { colors } from "@/styles/colors"
 
 export type GoalsProps = {
   id: string
@@ -23,12 +21,16 @@ export function Goals({ goals, onAdd, onPress }: Props) {
   return (
     <ScrollView
       horizontal
-      contentContainerStyle={styles.content}
+      contentContainerClassName="gap-4"
       showsHorizontalScrollIndicator={false}
-      style={styles.list}
+      className="w-full max-h-44"
     >
-      <TouchableOpacity activeOpacity={0.7} style={styles.add} onPress={onAdd}>
-        <MaterialIcons name="add" size={36} color={theme.colors.black} />
+      <TouchableOpacity
+        activeOpacity={0.7}
+        className="bg-green-500 w-16 max-h-44 items-center justify-center rounded-lg"
+        onPress={onAdd}
+      >
+        <MaterialIcons name="add" size={36} color={colors.black} />
       </TouchableOpacity>
 
       {goals.map(({ id, name, current, total }) => (
