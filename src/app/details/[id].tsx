@@ -1,16 +1,15 @@
+// LIBS
 import { useEffect, useRef, useState } from "react"
 import { Alert, Keyboard, View } from "react-native"
-import { useLocalSearchParams, router } from "expo-router"
+import { router, useLocalSearchParams } from "expo-router"
 import Bottom from "@gorhom/bottom-sheet"
 import dayjs from "dayjs"
-
-import { useGoalRepository } from "@/database/useGoalRepository"
-import { useTransactionRepository } from "@/database/useTransactionRepository"
 
 // COMPONENTS
 import { Input } from "@/components/Input"
 import { Header } from "@/components/Header"
 import { Button } from "@/components/Button"
+import { Loading } from "@/components/Loading"
 import { Progress } from "@/components/Progress"
 import { BackButton } from "@/components/BackButton"
 import { BottomSheet } from "@/components/BottomSheet"
@@ -19,6 +18,7 @@ import { TransactionProps } from "@/components/Transaction"
 import { TransactionTypeSelect } from "@/components/TransactionTypeSelect"
 
 // UTILS
+import { mocks } from "@/utils/mocks"
 import { currencyFormat } from "@/utils/currencyFormat"
 
 type Details = {
@@ -39,10 +39,6 @@ export default function Details() {
   const routeParams = useLocalSearchParams()
   const goalId = Number(routeParams.id)
 
-  // HOOKS
-  const useGoal = useGoalRepository()
-  const useTransactions = useTransactionRepository()
-
   // BOTTOM SHEET
   const bottomSheetRef = useRef<Bottom>(null)
   const handleBottomSheetOpen = () => bottomSheetRef.current?.expand()
@@ -51,8 +47,8 @@ export default function Details() {
   function fetchDetails() {
     try {
       if (goalId) {
-        const goal = useGoal.show(goalId)
-        const transactions = useTransactions.findByGoal(goalId)
+        const goal = mocks.goal
+        const transactions = mocks.transactions
 
         if (!goal || !transactions) {
           return router.back()
@@ -88,9 +84,8 @@ export default function Details() {
         amountAsNumber = amountAsNumber * -1
       }
 
-      useTransactions.create({ goalId, amount: amountAsNumber })
+      console.log({ goalId, amount: amountAsNumber })
 
-      fetchDetails()
       Alert.alert("Sucesso", "Transação registrada!")
 
       handleBottomSheetClose()
@@ -108,11 +103,11 @@ export default function Details() {
   }, [])
 
   if (isLoading) {
-    return
+    return <Loading />
   }
 
   return (
-    <View className="flex-1 p-8">
+    <View className="flex-1 p-8 pt-12">
       <BackButton />
 
       <Header title={goal.name} subtitle={`${goal.current} de ${goal.total}`} />

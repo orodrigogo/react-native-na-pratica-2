@@ -1,12 +1,9 @@
+// LIBS
 import { useEffect, useRef, useState } from "react"
 import { Alert, View, Keyboard } from "react-native"
 import Bottom from "@gorhom/bottom-sheet"
 import { router } from "expo-router"
 import dayjs from "dayjs"
-
-// DATABASE
-import { useGoalRepository } from "@/database/useGoalRepository"
-import { useTransactionRepository } from "@/database/useTransactionRepository"
 
 // COMPONENTS
 import { Input } from "@/components/Input"
@@ -16,6 +13,9 @@ import { BottomSheet } from "@/components/BottomSheet"
 import { Goals, GoalsProps } from "@/components/Goals"
 import { Transactions, TransactionsProps } from "@/components/Transactions"
 
+// UTILS
+import { mocks } from "@/utils/mocks"
+
 export default function Home() {
   // LISTS
   const [transactions, setTransactions] = useState<TransactionsProps>([])
@@ -24,10 +24,6 @@ export default function Home() {
   // FORM
   const [name, setName] = useState("")
   const [total, setTotal] = useState("")
-
-  // DATABASE
-  const useGoal = useGoalRepository()
-  const useTransaction = useTransactionRepository()
 
   // BOTTOM SHEET
   const bottomSheetRef = useRef<Bottom>(null)
@@ -46,9 +42,7 @@ export default function Home() {
         return Alert.alert("Erro", "Valor inválido.")
       }
 
-      useGoal.create({ name, total: totalAsNumber })
-
-      fetchGoals()
+      console.log({ name, total: totalAsNumber })
 
       Keyboard.dismiss()
       handleBottomSheetClose()
@@ -64,7 +58,7 @@ export default function Home() {
 
   async function fetchGoals() {
     try {
-      const response = useGoal.all()
+      const response = mocks.goals
       setGoals(response)
     } catch (error) {
       console.log(error)
@@ -73,7 +67,8 @@ export default function Home() {
 
   async function fetchTransactions() {
     try {
-      const response = useTransaction.findLatest()
+      const response = mocks.transactions
+
       setTransactions(
         response.map((item) => ({
           ...item,

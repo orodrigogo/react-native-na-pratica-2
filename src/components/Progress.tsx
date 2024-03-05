@@ -14,12 +14,12 @@ export function Progress({ percentage }: Props) {
         className="h-7 items-end justify-center rounded-full bg-green-500"
         style={{ width: `${width}%` }}
       >
-        {percentage >= 30 && (
+        {percentage >= 60 && (
           <Text className="text-black text-xs font-semiBold mx-5">{value}</Text>
         )}
       </View>
 
-      {percentage < 30 && (
+      {percentage < 60 && (
         <Text className="text-white text-xs font-semiBold mx-5">{value}</Text>
       )}
     </View>
